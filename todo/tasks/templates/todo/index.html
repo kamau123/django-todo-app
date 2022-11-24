@@ -1,0 +1,47 @@
+{% extends "./base.html" %}
+{% block content%}
+  <h4 class="text-center my-3 pb-3">To Do App</h4>
+
+  <form class="row row-cols-lg-auto g-3 justify-content-center align-items-center mb-4 pb-2" method="POST" action="">
+    <div class="col-12">
+      <div class="form-outline">
+          {% csrf_token %}
+          {{form.title}}
+      </div>
+    </div>
+
+    <div class="col-12">
+      <button class="btn btn-primary"> ADD TASK</button>
+    </div>
+
+  </form>
+
+    {% for task in tasks %}
+
+  <table class="table mb-5">
+    <thead>
+      <tr>
+        <th scope="col">Todo item</th>
+        <th scope="col">Status</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+          {%if task.complete == True%}
+          <td><strike>{{task}}</strike></td>
+          <td>complete</td>
+          {%else%}
+            <td>{{task}}</td>
+        <td>In progress</td>
+          {%endif%}
+        <td>
+          <a href="{% url 'update_task' task.id %}" class="btn btn-success">Update</a>
+          <a href="{% url 'delete_task' task.id %}" class="btn btn-danger ">Delete</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+    {% endfor %}
+
+{%endblock%}
